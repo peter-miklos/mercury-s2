@@ -12,7 +12,7 @@ public class Product {
   private Long id;
 
   public String category;
-  public String group;
+  public String productGroup;
   public String name;
   public Double price;
   public String origin;
@@ -20,9 +20,9 @@ public class Product {
   Product() {
   }
 
-  public Product(String category, String group, String name, Double price, String origin) {
+  public Product(String category, String productGroup, String name, Double price, String origin) {
     this.category = category;
-    this.group = group;
+    this.productGroup = productGroup;
     this.name = name;
     this.price = price;
     this.origin = origin;
@@ -37,7 +37,7 @@ public class Product {
   }
 
   public String getGroup() {
-    return group;
+    return productGroup;
   }
 
   public String getName() {
