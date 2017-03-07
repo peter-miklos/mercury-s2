@@ -27,7 +27,6 @@ public class ProductController {
 
   @GetMapping(value = "/product/{product_id}")
   public Product getProduct(@PathVariable Long product_id) {
-    product = new Product();
 
     for(Product productElem : products) {
       if(productElem.getId() == product_id) {
@@ -49,7 +48,8 @@ public class ProductController {
 
   @PostMapping(value = "/product")
   public Product productSubmit(@RequestBody Product input) {
-    products.add(input);
+    product = new Product(input.category, input.group, input.name, input.price, input.origin);
+    products.add(product);
     return input;
   }
 

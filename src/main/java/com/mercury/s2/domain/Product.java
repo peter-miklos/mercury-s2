@@ -2,69 +2,53 @@ package com.mercury.s2.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
 
 @Entity
 public class Product {
 
   @Id
+  @GeneratedValue
   private Long id;
 
-  private String category;
+  public String category;
+  public String group;
+  public String name;
+  public Double price;
+  public String origin;
 
-  private String group;
+  Product() {
+  }
 
-  private String name;
-
-  private Double price;
-
-  private String origin;
+  public Product(String category, String group, String name, Double price, String origin) {
+    this.category = category;
+    this.group = group;
+    this.name = name;
+    this.price = price;
+    this.origin = origin;
+  }
 
   public Long getId() {
     return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getCategory() {
     return category;
   }
 
-  public void setCategory(String category) {
-    this.category = category;
-  }
-
   public String getGroup() {
     return group;
-  }
-
-  public void setGroup(String group) {
-    this.group = group;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public Double getPrice() {
     return price;
-  }
-
-  public void setPrice(Double price) {
-    this.price = price;
   }
 
   public String getOrigin() {
     return origin;
   }
-
-  public void setOrigin(String origin) {
-    this.origin = origin;
-  }
-
 }
