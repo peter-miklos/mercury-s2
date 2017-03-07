@@ -45,7 +45,9 @@ public class ProductController {
 
   @PostMapping(value = "/product")
   public Product productSubmit(@RequestBody Product input) {
-    Product result = this.productRepository.save(new Product(input.category, input.productGroup, input.name, input.price, input.origin));
+    Product result = this.productRepository.save(
+      new Product(input.productCategory, input.productGroup, input.productName, input.productPrice, input.productOrigin)
+    );
     return result;
   }
 

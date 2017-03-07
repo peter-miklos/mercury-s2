@@ -11,44 +11,44 @@ public class Product {
   @GeneratedValue
   private Long id;
 
-  public String category;
+  public String productCategory;
   public String productGroup;
-  public String name;
-  public Double price;
-  public String origin;
+  public String productName;
+  public Double productPrice;
+  public String productOrigin;
 
   Product() {
   }
 
-  public Product(String category, String productGroup, String name, Double price, String origin) {
-    this.category = category;
+  public Product(String productCategory, String productGroup, String productName, Double productPrice, String productOrigin) {
+    this.productCategory = productCategory;
     this.productGroup = productGroup;
-    this.name = name;
-    this.price = price;
-    this.origin = origin;
+    this.productName = productName;
+    this.productPrice = productPrice;
+    this.productOrigin = productOrigin;
   }
 
   public Long getId() {
     return id;
   }
 
-  public String getCategory() {
-    return category;
+  public String getProductCategory() {
+    return productCategory;
   }
 
-  public String getGroup() {
+  public String getProductGroup() {
     return productGroup;
   }
 
-  public String getName() {
-    return name;
+  public String getProductName() {
+    return productName;
   }
 
-  public Double getPrice() {
-    return price;
+  public Double getProductPrice() {
+    return productPrice;
   }
 
-  public String getOrigin() {
-    return origin;
+  public String getProductOrigin() {
+    return productOrigin;
   }
 }
