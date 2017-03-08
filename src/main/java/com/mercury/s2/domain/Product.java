@@ -3,8 +3,10 @@ package com.mercury.s2.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="products")
 public class Product {
 
   @Id
