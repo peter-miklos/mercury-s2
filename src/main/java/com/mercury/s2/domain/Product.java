@@ -13,21 +13,13 @@ public class Product {
   @GeneratedValue
   private Long id;
 
-  public String productCategory;
-  public String productGroup;
-  public String productName;
-  public Double productPrice;
-  public String productOrigin;
+  private String productCategory;
+  private String productGroup;
+  private String productName;
+  private Double productPrice;
+  private String productOrigin;
 
-  Product() {
-  }
-
-  public Product(String productCategory, String productGroup, String productName, Double productPrice, String productOrigin) {
-    this.productCategory = productCategory;
-    this.productGroup = productGroup;
-    this.productName = productName;
-    this.productPrice = productPrice;
-    this.productOrigin = productOrigin;
+  public Product() {
   }
 
   public Long getId() {
