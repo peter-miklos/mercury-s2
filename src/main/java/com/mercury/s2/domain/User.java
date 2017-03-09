@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="accounts")
-public class Account {
+public class User {
 
   @Id
   @GeneratedValue
@@ -15,10 +15,10 @@ public class Account {
   private String username;
   private String password;
 
-  public Account() {
+  public User() {
   }
 
-  public Account(String username, String password) {
+  public User(String username, String password) {
     this.username = username;
     this.password = password;
   }
