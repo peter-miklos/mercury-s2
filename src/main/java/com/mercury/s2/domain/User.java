@@ -6,14 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="accounts")
+@Table(name="users")
 public class User {
 
   @Id
   @GeneratedValue
   private Long id;
-  private String username;
-  private String password;
+
+  public String username;
+  public String password;
 
   public User() {
   }
@@ -28,7 +29,7 @@ public class User {
   }
 
   public String getUsername() {
-    return password;
+    return username;
   }
 
   public void setUsername(String username) {
