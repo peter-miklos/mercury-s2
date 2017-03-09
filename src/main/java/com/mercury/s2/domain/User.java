@@ -3,7 +3,9 @@ package com.mercury.s2.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
 @Table(name="users")
@@ -11,17 +13,16 @@ public class User {
 
   @Id
   @GeneratedValue
+  @Column(nullable = false, updatable = false)
   private Long id;
 
-  public String username;
-  public String password;
+  @Column(nullable = false, unique = true)
+  private String username;
+
+  @Column(nullable = false)
+  private String password;
 
   public User() {
-  }
-
-  public User(String username, String password) {
-    this.username = username;
-    this.password = password;
   }
 
   public Long getId() {
@@ -42,5 +43,14 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", email='" + username.replaceFirst("@.*", "@***") +
+            ", passwordHash='" + password.substring(0, 10) +
+            '}';
   }
 }

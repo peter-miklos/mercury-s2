@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
+
 import com.mercury.s2.domain.User;
 import com.mercury.s2.repository.UserRepository;
 
@@ -20,10 +22,13 @@ public class UserController {
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/users/new")
-  public User userSubmit(@RequestBody User input) {
-    User result = this.userRepository.save(
-      new User(input.username, new BCryptPasswordEncoder().encode(input.password))
-    );
-    return result;
+  public String userSubmit(@RequestBody User input) {
+    User user = new User();
+    user.setUsername(input.getUsername());
+    user.setPassword(new BCryptPasswordEncoder().encode(input.getPassword()));
+    return userRepository.save(user).toString();
   }
+
+
+
 }
