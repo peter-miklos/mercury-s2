@@ -52,4 +52,21 @@ public class ProductController {
     return result;
   }
 
+  @RequestMapping(method = RequestMethod.PUT, value = "/product/{product_id}")
+  public Product updateProduct(@PathVariable Long product_id, @RequestBody Product input) {
+    if (product_id != null) {
+      Product product = this.productRepository.findOne(product_id);
+      product.setProductCategory(input.productCategory);
+      product.setProductGroup(input.productGroup);
+      product.setProductName(input.productName);
+      product.setProductPrice(input.productPrice);
+      product.setProductOrigin(input.productOrigin);
+
+      Product result = this.productRepository.saveAndFlush(product);
+      return result;
+    } else {
+      throw new IllegalArgumentException();
+    }
+  }
+
 }
