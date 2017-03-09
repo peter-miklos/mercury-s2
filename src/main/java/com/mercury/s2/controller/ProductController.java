@@ -46,21 +46,25 @@ public class ProductController {
 
   @RequestMapping(method = RequestMethod.POST, value = "/product")
   public Product productSubmit(@RequestBody Product input) {
-    Product result = this.productRepository.save(
-      new Product(input.productCategory, input.productGroup, input.productName, input.productPrice, input.productOrigin)
-    );
-    return result;
+    Product product = new Product();
+    product.setProductCategory(input.getProductCategory());
+    product.setProductGroup(input.getProductGroup());
+    product.setProductName(input.getProductName());
+    product.setProductPrice(input.getProductPrice());
+    product.setProductOrigin(input.getProductOrigin());
+
+    return productRepository.save(product);
   }
 
   @RequestMapping(method = RequestMethod.PUT, value = "/product/{product_id}")
   public Product updateProduct(@PathVariable Long product_id, @RequestBody Product input) {
     if (product_id != null) {
       Product product = this.productRepository.findOne(product_id);
-      product.setProductCategory(input.productCategory);
-      product.setProductGroup(input.productGroup);
-      product.setProductName(input.productName);
-      product.setProductPrice(input.productPrice);
-      product.setProductOrigin(input.productOrigin);
+      product.setProductCategory(input.getProductCategory());
+      product.setProductGroup(input.getProductGroup());
+      product.setProductName(input.getProductName());
+      product.setProductPrice(input.getProductPrice());
+      product.setProductOrigin(input.getProductOrigin());
 
       Product result = this.productRepository.saveAndFlush(product);
       return result;
