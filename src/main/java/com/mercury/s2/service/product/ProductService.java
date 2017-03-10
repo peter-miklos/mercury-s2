@@ -9,10 +9,10 @@ public interface ProductService {
 
   Product create(Product input);
 
-  Product update(Long productId, Product input);
+  Product update(Product product, Product input);
 
-  // Optional<Product> getProductById(Long id);
-  //
+  Optional<Product> getProductById(Long id);
+
   // Optional<Product> getUserByEmail(String email);
   //
   // Collection<Product> getAllProducts();

@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import com.mercury.s2.domain.Product;
 import com.mercury.s2.service.product.ProductService;
@@ -21,7 +23,8 @@ public class ProductController {
 
   private final ProductService productService;
 
-  ProductController(ProductService productService) {
+  @Autowired
+  public ProductController(ProductService productService) {
     this.productService = productService;
   }
 
@@ -51,11 +54,9 @@ public class ProductController {
 
   @RequestMapping(method = RequestMethod.PUT, value = "/product/{productId}")
   public Product updateProduct(@PathVariable Long productId, @RequestBody Product input) {
-    if (productId != null) {
-      return productService.update(productId, input);
-    } else {
-      throw new IllegalArgumentException();
-    }
+    Product product = productService.getProductById(productId)
+          .orElseThrow(() -> new NoSuchElementException(String.format("Product(id: %s) not found", productId)));
+    return productService.update(product, input);
   }
 
 }

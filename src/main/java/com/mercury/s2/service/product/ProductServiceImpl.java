@@ -5,6 +5,7 @@ import com.mercury.s2.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,8 +30,7 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Product update(Long productId, Product input) {
-    Product product = this.productRepository.findOne(productId);
+  public Product update(Product product, Product input) {
     product.setProductCategory(input.getProductCategory());
     product.setProductGroup(input.getProductGroup());
     product.setProductName(input.getProductName());
@@ -38,5 +38,10 @@ public class ProductServiceImpl implements ProductService {
     product.setProductOrigin(input.getProductOrigin());
 
     return this.productRepository.saveAndFlush(product);
+  }
+
+  @Override
+  public Optional<Product> getProductById(Long id) {
+    return Optional.ofNullable(productRepository.findOne(id));
   }
 }
