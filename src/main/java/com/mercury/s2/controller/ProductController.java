@@ -14,7 +14,6 @@ import java.util.Collection;
 
 import com.mercury.s2.domain.Product;
 import com.mercury.s2.service.product.ProductService;
-import com.mercury.s2.repository.ProductRepository;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -50,21 +49,13 @@ public class ProductController {
     return productService.create(input);
   }
 
-  // @RequestMapping(method = RequestMethod.PUT, value = "/product/{product_id}")
-  // public Product updateProduct(@PathVariable Long product_id, @RequestBody Product input) {
-  //   if (product_id != null) {
-  //     Product product = this.productRepository.findOne(product_id);
-  //     product.setProductCategory(input.getProductCategory());
-  //     product.setProductGroup(input.getProductGroup());
-  //     product.setProductName(input.getProductName());
-  //     product.setProductPrice(input.getProductPrice());
-  //     product.setProductOrigin(input.getProductOrigin());
-  //
-  //     Product result = this.productRepository.saveAndFlush(product);
-  //     return result;
-  //   } else {
-  //     throw new IllegalArgumentException();
-  //   }
-  // }
+  @RequestMapping(method = RequestMethod.PUT, value = "/product/{productId}")
+  public Product updateProduct(@PathVariable Long productId, @RequestBody Product input) {
+    if (productId != null) {
+      return productService.update(productId, input);
+    } else {
+      throw new IllegalArgumentException();
+    }
+  }
 
 }

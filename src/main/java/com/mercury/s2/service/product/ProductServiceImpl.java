@@ -27,4 +27,16 @@ public class ProductServiceImpl implements ProductService {
 
     return productRepository.save(product);
   }
+
+  @Override
+  public Product update(Long productId, Product input) {
+    Product product = this.productRepository.findOne(productId);
+    product.setProductCategory(input.getProductCategory());
+    product.setProductGroup(input.getProductGroup());
+    product.setProductName(input.getProductName());
+    product.setProductPrice(input.getProductPrice());
+    product.setProductOrigin(input.getProductOrigin());
+
+    return this.productRepository.saveAndFlush(product);
+  }
 }
