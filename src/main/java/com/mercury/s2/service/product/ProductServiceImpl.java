@@ -5,7 +5,9 @@ import com.mercury.s2.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 import java.util.Optional;
+import java.util.Collection;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,11 +39,16 @@ public class ProductServiceImpl implements ProductService {
     product.setProductPrice(input.getProductPrice());
     product.setProductOrigin(input.getProductOrigin());
 
-    return this.productRepository.saveAndFlush(product);
+    return productRepository.saveAndFlush(product);
   }
 
   @Override
   public Optional<Product> getProductById(Long id) {
     return Optional.ofNullable(productRepository.findOne(id));
+  }
+
+  @Override
+  public Collection<Product> getAllProducts() {
+    return productRepository.findAll(new Sort("productName"));
   }
 }

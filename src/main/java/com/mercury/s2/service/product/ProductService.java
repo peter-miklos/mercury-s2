@@ -13,8 +13,6 @@ public interface ProductService {
 
   Optional<Product> getProductById(Long id);
 
-  // Optional<Product> getUserByEmail(String email);
-  //
-  // Collection<Product> getAllProducts();
+  Collection<Product> getAllProducts();
 
 }

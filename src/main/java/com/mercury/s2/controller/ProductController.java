@@ -42,10 +42,10 @@ public class ProductController {
   //   }
   // }
   //
-  // @RequestMapping(method = RequestMethod.GET, value = "/products")
-  // public Collection<Product> getProducts() {
-  //   return this.productRepository.findAll();
-  // }
+  @RequestMapping(method = RequestMethod.GET, value = "/products")
+  public Collection<Product> getProducts() {
+    return productService.getAllProducts();
+  }
 
   @RequestMapping(method = RequestMethod.POST, value = "/product")
   public Product productSubmit(@RequestBody Product input) {
