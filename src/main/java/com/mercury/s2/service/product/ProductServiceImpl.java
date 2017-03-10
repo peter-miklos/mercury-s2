@@ -22,24 +22,12 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Product create(Product input) {
     Product product = new Product();
-    product.setProductCategory(input.getProductCategory());
-    product.setProductGroup(input.getProductGroup());
-    product.setProductName(input.getProductName());
-    product.setProductPrice(input.getProductPrice());
-    product.setProductOrigin(input.getProductOrigin());
-
-    return productRepository.save(product);
+    return productRepository.save(addProudctFeatures(product, input));
   }
 
   @Override
   public Product update(Product product, Product input) {
-    product.setProductCategory(input.getProductCategory());
-    product.setProductGroup(input.getProductGroup());
-    product.setProductName(input.getProductName());
-    product.setProductPrice(input.getProductPrice());
-    product.setProductOrigin(input.getProductOrigin());
-
-    return productRepository.saveAndFlush(product);
+    return productRepository.saveAndFlush(addProudctFeatures(product, input));
   }
 
   @Override
@@ -50,5 +38,15 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Collection<Product> getAllProducts() {
     return productRepository.findAll(new Sort("productName"));
+  }
+
+  private Product addProudctFeatures(Product product, Product input) {
+    product.setProductCategory(input.getProductCategory());
+    product.setProductGroup(input.getProductGroup());
+    product.setProductName(input.getProductName());
+    product.setProductPrice(input.getProductPrice());
+    product.setProductOrigin(input.getProductOrigin());
+
+    return product;
   }
 }
