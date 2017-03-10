@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Optional;
 
 import com.mercury.s2.domain.User;
 import com.mercury.s2.repository.UserRepository;
@@ -17,6 +16,7 @@ public class UserController {
 
   private final UserRepository userRepository;
 
+  @Autowired
   UserController(UserRepository userRepository) {
     this.userRepository = userRepository;
   }

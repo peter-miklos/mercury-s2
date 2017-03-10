@@ -49,7 +49,7 @@ public class User {
   public String toString() {
     return "User{" +
             "id=" + id +
-            ", email='" + username.replaceFirst("@.*", "@***") +
+            ", username='" + username.replaceFirst("@.*", "@***") +
             ", passwordHash='" + password.substring(0, 10) +
             '}';
   }
