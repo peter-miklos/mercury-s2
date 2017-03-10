@@ -33,15 +33,13 @@ public class ProductController {
       response.sendError(HttpStatus.BAD_REQUEST.value(), "Please try again and with a valid product ID");
   }
 
-  // @RequestMapping(method = RequestMethod.GET, value = "/product/{product_id}")
-  // public Product getProduct(@PathVariable Long product_id) {
-  //   if (product_id != null) {
-  //     return this.productRepository.findOne(product_id);
-  //   } else {
-  //     throw new IllegalArgumentException();
-  //   }
-  // }
-  //
+  @RequestMapping(method = RequestMethod.GET, value = "/product/{productId}")
+  public Product getProduct(@PathVariable Long productId) {
+    Product product = productService.getProductById(productId)
+          .orElseThrow(() -> new NoSuchElementException(String.format("Product(id: %s) not found", productId)));
+    return product;
+  }
+
   @RequestMapping(method = RequestMethod.GET, value = "/products")
   public Collection<Product> getProducts() {
     return productService.getAllProducts();
