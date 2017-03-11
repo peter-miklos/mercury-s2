@@ -8,7 +8,6 @@ import com.mercury.s2.repository.UserRepository;
 import com.mercury.s2.domain.User;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
