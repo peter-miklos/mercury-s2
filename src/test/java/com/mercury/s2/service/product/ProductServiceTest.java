@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import java.util.Optional;
-import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import org.springframework.data.domain.Sort;
 
 import com.mercury.s2.repository.ProductRepository;
 import com.mercury.s2.domain.Product;
@@ -58,6 +60,25 @@ public class ProductServiceTest {
     assertEquals("Null is returned", productService.getProductById(Long.valueOf(112)).isPresent(), false);
   }
 
+  @Test
+  public void getAllProductsCallsFindAllOnProductRepoAndGetAnEmptyArray() throws Exception {
+    when(productRepositoryMock.findAll()).thenReturn(null);
+    assertEquals("Empty array returned", productService.getAllProducts().isEmpty(), true);
+  }
 
+  @Test
+  public void getAllProductsCallsFindAllOnProductRepoAndGetASetOfProducts() throws Exception {
+    Product product1 = mock(Product.class);
+    when(product1.getProductName()).thenReturn("test product 1");
+    Product product2 = mock(Product.class);
+    when(product2.getProductName()).thenReturn("test product 2");
+    List<Product> products = new ArrayList<Product>();
+    products.add(product1);
+    products.add(product2);
+    when(productRepositoryMock.findAll(any(Sort.class))).thenReturn(products);
+
+    assertEquals("List of proudcts returned", productService.getAllProducts().contains(product1), true);
+    assertEquals("List of proudcts returned", productService.getAllProducts().contains(product2), true);
+  }
 
 }

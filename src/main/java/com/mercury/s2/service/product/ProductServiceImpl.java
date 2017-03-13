@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 import java.util.Optional;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Collection<Product> getAllProducts() {
+    List<Product> productList = productRepository.findAll(new Sort("productName"));
     return productRepository.findAll(new Sort("productName"));
   }
 
