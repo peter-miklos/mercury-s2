@@ -50,7 +50,7 @@ public class User {
     return "User{" +
             "id=" + id +
             ", username='" + username.replaceFirst("@.*", "@***") +
-            ", passwordHash='" + password.substring(0, 10) +
-            '}';
+            "', passwordHash='" + password.substring(0, 10) +
+            "'}";
   }
 }

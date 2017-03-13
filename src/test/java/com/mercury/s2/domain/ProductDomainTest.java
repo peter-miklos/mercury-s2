@@ -2,13 +2,12 @@ package com.mercury.s2.domain;
 
 import org.junit.Test;
 import org.junit.Before;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class ProductDomainTest {
 
-  Product product;
+  private Product product;
 
   @Before
   public void setUp() {
