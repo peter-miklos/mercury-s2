@@ -2,8 +2,6 @@ package com.mercury.s2.service.product;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.runner.RunWith;
-import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
 import org.springframework.data.domain.Sort;
@@ -21,7 +19,6 @@ public class ProductServiceTest {
   private Product productMock;
   private Product originalProduct;
   private Product inputMock;
-  private Optional<Product> foundProductMock;
 
   @Before
   public void setUp() {
