@@ -16,9 +16,7 @@ public class ProductServiceTest {
 
   private ProductService productService;
   private ProductRepository productRepositoryMock;
-  private Product productMock;
-  private Product originalProduct;
-  private Product inputMock;
+  private Product productMock, originalProduct, inputMock;
 
   @Before
   public void setUp() {

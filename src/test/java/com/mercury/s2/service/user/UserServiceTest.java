@@ -14,8 +14,7 @@ public class UserServiceTest {
 
   private UserService userService;
   private UserRepository userRepositoryMock;
-  private User inputMock;
-  private User userMock;
+  private User inputMock, userMock;
 
   @Before
   public void setUp() {

@@ -8,8 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class UserDomainTest {
 
   private User user;
-  private String username;
-  private String password;
+  private String username, password;
 
   @Before
   public void setUp() {
