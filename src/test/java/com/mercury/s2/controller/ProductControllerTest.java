@@ -61,4 +61,13 @@ public class ProductControllerTest {
            .andExpect(jsonPath("$[1].productName", is("Product 2")));
   }
 
+  @Test
+  public void emptyArrayReturnedIfThereIsNoProduct() throws Exception {
+    given(this.productService.getAllProducts()).willReturn(new ArrayList<Product>());
+    this.mvc.perform(get("/api/v1/products"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$", hasSize(0)));
+  }
+
 }
