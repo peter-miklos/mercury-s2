@@ -1,6 +1,7 @@
 package com.mercury.s2.controller;
 
 import org.junit.*;
+import org.junit.Assert.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.mock.mockito.*;
@@ -16,10 +17,13 @@ import java.nio.charset.Charset;
 import com.mercury.s2.repository.ProductRepository;
 import com.mercury.s2.domain.Product;
 import com.mercury.s2.MercuryS2Application;
+import org.springframework.web.util.NestedServletException;
 
-import static org.mockito.Mockito.*;
-import static org.mockito.BDDMockito.*;
+// import static org.mockito.Mockito.*;
+// import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
@@ -33,7 +37,6 @@ public class ProductControllerTest {
   private ProductController productController;
   private Product product1;
   private Product product2;
-  private Long productId = Long.valueOf(22);
   private List<Product> productList = new ArrayList<>();
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -85,6 +88,29 @@ public class ProductControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(0)));
+  }
+
+  @Test
+  public void detailsOfRequestedProductReturned() throws Exception {
+    this.mvc.perform(get("/api/v1/product/" + this.productList.get(0).getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$.productCategory", is("Category 1")))
+            .andExpect(jsonPath("$.productGroup", is("Group 1")))
+            .andExpect(jsonPath("$.productName", is("Product 1")))
+            .andExpect(jsonPath("$.productPrice", is(1.99)))
+            .andExpect(jsonPath("$.productOrigin", is("UK")));
+  }
+
+  @Test
+  public void errorMsgReturnedIfProductNotFound() throws Exception {
+    Long productId = this.productList.get(0).getId() - Long.valueOf(1);
+    try {
+      this.mvc.perform(get("/api/v1/product/{id}", productId));
+      fail("Excception has not been thrown");
+    } catch (NestedServletException e) {
+      assertEquals(e.getCause().getMessage(), "Product(id: " + productId + ") not found");
+    }
   }
 
 }
