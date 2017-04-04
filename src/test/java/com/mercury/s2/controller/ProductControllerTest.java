@@ -1,16 +1,18 @@
 package com.mercury.s2.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
-import org.junit.Assert.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
 import java.util.*;
 import java.nio.charset.Charset;
 
@@ -19,8 +21,6 @@ import com.mercury.s2.domain.Product;
 import com.mercury.s2.MercuryS2Application;
 import org.springframework.web.util.NestedServletException;
 
-// import static org.mockito.Mockito.*;
-// import static org.mockito.BDDMockito.*;
 import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
@@ -111,6 +111,39 @@ public class ProductControllerTest {
     } catch (NestedServletException e) {
       assertEquals(e.getCause().getMessage(), "Product(id: " + productId + ") not found");
     }
+  }
+
+  @Test
+  public void createProduct() throws Exception {
+    product2.setProductName("Product 3");
+
+    this.mvc.perform(post("/api/v1/product")
+            .contentType(contentType)
+            .content(json(product2)))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$.productCategory", is(product2.getProductCategory())))
+            .andExpect(jsonPath("$.productGroup", is(product2.getProductGroup())))
+            .andExpect(jsonPath("$.productName", is(product2.getProductName())))
+            .andExpect(jsonPath("$.productPrice", is(product2.getProductPrice())))
+            .andExpect(jsonPath("$.productOrigin", is(product2.getProductOrigin())));
+
+  }
+
+//  @Test
+//  public void throwsExceptionIfProductNameIsMissing() throws Exception {
+//      product1.setProductName("");
+//
+//      this.mvc.perform(post("/api/v1/product")
+//              .contentType(contentType)
+//              .content(json(product1)))
+//              .andExpect(status().isOk());
+//  }
+
+  protected byte[] json(Object o) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    return mapper.writeValueAsBytes(o);
   }
 
 }
