@@ -132,7 +132,7 @@ public class ProductControllerTest {
 
 //  @Test
 //  public void throwsExceptionIfProductNameIsMissing() throws Exception {
-//      product1.setProductName("");
+//      product1.setProductName(null);
 //
 //      this.mvc.perform(post("/api/v1/product")
 //              .contentType(contentType)

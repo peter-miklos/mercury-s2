@@ -1,5 +1,6 @@
 package com.mercury.s2.controller;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,12 +47,12 @@ public class ProductController {
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/product")
-  public Product productSubmit(@RequestBody Product input) {
+  public Product productSubmit(@Validated @RequestBody Product input) {
     return productService.create(input);
   }
 
   @RequestMapping(method = RequestMethod.PUT, value = "/product/{productId}")
-  public Product updateProduct(@PathVariable Long productId, @RequestBody Product input) {
+  public Product updateProduct(@PathVariable Long productId, @Validated @RequestBody Product input) {
     Product product = productService.getProductById(productId)
           .orElseThrow(() -> new NoSuchElementException(String.format("Product(id: %s) not found", productId)));
     return productService.update(product, input);
