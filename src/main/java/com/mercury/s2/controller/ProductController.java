@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -43,8 +42,7 @@ public class ProductController {
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/product")
-  @ResponseBody
-  public Product productSubmit(@Valid @RequestBody Product input) {
+  public Product productSubmit(@Validated @RequestBody Product input) {
     return productService.create(input);
   }
 

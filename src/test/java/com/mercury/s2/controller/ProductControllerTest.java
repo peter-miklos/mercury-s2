@@ -10,8 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
@@ -43,8 +41,8 @@ public class ProductControllerTest {
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
-
   private MockMvc mvc;
+  private Long product1Id;
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -71,6 +69,7 @@ public class ProductControllerTest {
 
     this.productList.add(productRepository.save(product1));
     this.productList.add(productRepository.save(product2));
+    product1Id = product1.getId();
   }
 
   @Test
@@ -227,6 +226,129 @@ public class ProductControllerTest {
         product1.setProductOrigin("A");
 
         this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateProduct() throws Exception {
+        System.out.println(product1Id);
+        product1.setProductCategory("Category 9");
+        product1.setProductGroup("Product group 9");
+        product1.setProductName("Product 9");
+        product1.setProductPrice(33.97);
+        product1.setProductOrigin("Hungary");
+        System.out.println(product1Id);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.productCategory", is(product1.getProductCategory())))
+                .andExpect(jsonPath("$.productGroup", is(product1.getProductGroup())))
+                .andExpect(jsonPath("$.productName", is(product1.getProductName())))
+                .andExpect(jsonPath("$.productPrice", is(product1.getProductPrice())))
+                .andExpect(jsonPath("$.productOrigin", is(product1.getProductOrigin())));
+
+    }
+
+    @Test
+    public void exceptionThrownIfCategoryIsMissingInProductUpdate() throws Exception {
+        product1.setProductCategory(null);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfCategoryIsInvalidInProductUpdate() throws Exception {
+        product1.setProductCategory("Cate");
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfGroupIsMissingInProductUpdate() throws Exception {
+        product1.setProductGroup(null);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfGroupIsInvalidInProductUpdate() throws Exception {
+        product1.setProductGroup("Grou");
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfNameIsMissingInProductUpdate() throws Exception {
+        product1.setProductName(null);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfNameIsInvalidInProductUpdate() throws Exception {
+        product1.setProductName("Prod");
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfPriceIsMissingInProductUpdate() throws Exception {
+        product1.setProductPrice(null);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfPriceIsInvalidInProductUpdate() throws Exception {
+        product1.setProductPrice(0.0001);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfOriginIsMissingInProductUpdate() throws Exception {
+        product1.setProductOrigin(null);
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfOriginIsInvalidInProductUpdate() throws Exception {
+        product1.setProductOrigin("A");
+
+        this.mvc.perform(put("/api/v1/product/{id}", product1Id)
                 .contentType(contentType)
                 .content(json(product1)))
                 .andExpect(status().isBadRequest());
