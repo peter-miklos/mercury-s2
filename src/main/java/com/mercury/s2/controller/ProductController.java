@@ -1,16 +1,12 @@
 package com.mercury.s2.controller;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -47,7 +43,8 @@ public class ProductController {
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/product")
-  public Product productSubmit(@Validated @RequestBody Product input) {
+  @ResponseBody
+  public Product productSubmit(@Valid @RequestBody Product input) {
     return productService.create(input);
   }
 

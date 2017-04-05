@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
@@ -92,7 +94,7 @@ public class ProductControllerTest {
 
   @Test
   public void detailsOfRequestedProductReturned() throws Exception {
-    this.mvc.perform(get("/api/v1/product/" + this.productList.get(0).getId()))
+    this.mvc.perform(get("/api/v1/product/{id}", this.productList.get(0).getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$.productCategory", is("Category 1")))
@@ -102,48 +104,138 @@ public class ProductControllerTest {
             .andExpect(jsonPath("$.productOrigin", is("UK")));
   }
 
-  @Test
-  public void errorMsgReturnedIfProductNotFound() throws Exception {
-    Long productId = this.productList.get(0).getId() - Long.valueOf(1);
-    try {
-      this.mvc.perform(get("/api/v1/product/{id}", productId));
-      fail("Excception has not been thrown");
-    } catch (NestedServletException e) {
-      assertEquals(e.getCause().getMessage(), "Product(id: " + productId + ") not found");
+    @Test
+    public void errorMsgReturnedIfProductNotFound() throws Exception {
+        Long productId = this.productList.get(0).getId() - Long.valueOf(1);
+        try {
+          this.mvc.perform(get("/api/v1/product/{id}", productId));
+          fail("Excception has not been thrown");
+        } catch (NestedServletException e) {
+          assertEquals(e.getCause().getMessage(), "Product(id: " + productId + ") not found");
+        }
     }
-  }
 
-  @Test
-  public void createProduct() throws Exception {
-    product2.setProductName("Product 3");
+    @Test
+    public void createProduct() throws Exception {
+        product2.setProductName("Product 3");
 
-    this.mvc.perform(post("/api/v1/product")
-            .contentType(contentType)
-            .content(json(product2)))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(contentType))
-            .andExpect(jsonPath("$.productCategory", is(product2.getProductCategory())))
-            .andExpect(jsonPath("$.productGroup", is(product2.getProductGroup())))
-            .andExpect(jsonPath("$.productName", is(product2.getProductName())))
-            .andExpect(jsonPath("$.productPrice", is(product2.getProductPrice())))
-            .andExpect(jsonPath("$.productOrigin", is(product2.getProductOrigin())));
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product2)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.productCategory", is(product2.getProductCategory())))
+                .andExpect(jsonPath("$.productGroup", is(product2.getProductGroup())))
+                .andExpect(jsonPath("$.productName", is(product2.getProductName())))
+                .andExpect(jsonPath("$.productPrice", is(product2.getProductPrice())))
+                .andExpect(jsonPath("$.productOrigin", is(product2.getProductOrigin())));
 
-  }
+    }
 
-//  @Test
-//  public void throwsExceptionIfProductNameIsMissing() throws Exception {
-//      product1.setProductName(null);
-//
-//      this.mvc.perform(post("/api/v1/product")
-//              .contentType(contentType)
-//              .content(json(product1)))
-//              .andExpect(status().isOk());
-//  }
+    @Test
+    public void exceptionThrownIfCategoryIsMissingInProductCreation() throws Exception {
+        product1.setProductCategory(null);
 
-  protected byte[] json(Object o) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    return mapper.writeValueAsBytes(o);
-  }
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfCategoryIsInvalidInProductCreation() throws Exception {
+        product1.setProductCategory("Cate");
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfGroupIsMissingInProductCreation() throws Exception {
+      product1.setProductGroup(null);
+
+      this.mvc.perform(post("/api/v1/product")
+              .contentType(contentType)
+              .content(json(product1)))
+              .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfGroupIsInvalidInProductCreation() throws Exception {
+        product1.setProductGroup("Grou");
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfNameIsMissingInProductCreation() throws Exception {
+        product1.setProductName(null);
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfNameIsInvalidInProductCreation() throws Exception {
+        product1.setProductName("Prod");
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfPriceIsMissingInProductCreation() throws Exception {
+        product1.setProductPrice(null);
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfPriceIsInvalidInProductCreation() throws Exception {
+        product1.setProductPrice(0.0001);
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfOriginIsMissingInProductCreation() throws Exception {
+        product1.setProductOrigin(null);
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void exceptionThrownIfOriginIsInvalidInProductCreation() throws Exception {
+        product1.setProductOrigin("A");
+
+        this.mvc.perform(post("/api/v1/product")
+                .contentType(contentType)
+                .content(json(product1)))
+                .andExpect(status().isBadRequest());
+    }
+
+    protected byte[] json(Object o) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper.writeValueAsBytes(o);
+    }
 
 }

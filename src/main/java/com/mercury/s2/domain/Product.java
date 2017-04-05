@@ -35,7 +35,7 @@ public class Product {
 
     @Column
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 2, max = 30)
     private String productOrigin;
 
   public Product() {
