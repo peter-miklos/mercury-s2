@@ -1,23 +1,42 @@
 package com.mercury.s2.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="products")
 public class Product {
+    @Id
+    @GeneratedValue
+    private Long id;
 
-  @Id
-  @GeneratedValue
-  private Long id;
+    @Column
+    @NotNull
+    @Size(min = 5, max = 30)
+    private String productCategory;
 
-  private String productCategory;
-  private String productGroup;
-  private String productName;
-  private Double productPrice;
-  private String productOrigin;
+    @Column
+    @NotNull
+    @Size(min = 5, max = 30)
+    private String productGroup;
+
+    @Column
+    @NotNull
+    @Size(min = 5, max = 30)
+    private String productName;
+
+    @Column
+    @NotNull
+    @DecimalMin(value = "0.01")
+    private Double productPrice;
+
+    @Column
+    @NotNull
+    @Size(min = 2, max = 30)
+    private String productOrigin;
 
   public Product() {
   }
