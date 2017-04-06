@@ -255,6 +255,19 @@ public class ProductControllerTest {
     }
 
     @Test
+    public void errorMsgReturnedIfProductNotFoundInProductUpdate() throws Exception {
+        Long productId = this.productList.get(0).getId() - Long.valueOf(1);
+        try {
+            this.mvc.perform(put("/api/v1/product/{id}", productId)
+                    .contentType(contentType)
+                    .content(json(product1)));
+            fail("Excception has not been thrown");
+        } catch (NestedServletException e) {
+            assertEquals(e.getCause().getMessage(), "Product(id: " + productId + ") not found");
+        }
+    }
+
+    @Test
     public void exceptionThrownIfCategoryIsMissingInProductUpdate() throws Exception {
         product1.setProductCategory(null);
 
