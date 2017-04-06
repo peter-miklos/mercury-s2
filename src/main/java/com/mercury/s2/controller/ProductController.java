@@ -2,11 +2,8 @@ package com.mercury.s2.controller;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -22,11 +19,6 @@ public class ProductController {
   @Autowired
   public ProductController(ProductService productService) {
     this.productService = productService;
-  }
-
-  @ExceptionHandler(IllegalArgumentException.class)
-  void handleBadRequests(HttpServletResponse response) throws IOException {
-      response.sendError(HttpStatus.BAD_REQUEST.value(), "Please try again and with a valid product ID");
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/product/{productId}")
