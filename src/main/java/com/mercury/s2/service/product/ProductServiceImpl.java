@@ -42,6 +42,12 @@ public class ProductServiceImpl implements ProductService {
     return productRepository.findAll(new Sort("productName"));
   }
 
+  @Override
+  public String delete(Long id) {
+    productRepository.delete(id);
+    return "Product (id: " + id + ") successfully deleted";
+  }
+
   private Product addProudctFeatures(Product product, Product input) {
     product.setProductCategory(input.getProductCategory());
     product.setProductGroup(input.getProductGroup());

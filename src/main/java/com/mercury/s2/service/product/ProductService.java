@@ -15,4 +15,6 @@ public interface ProductService {
 
   Collection<Product> getAllProducts();
 
+  String delete(Long id);
+
 }

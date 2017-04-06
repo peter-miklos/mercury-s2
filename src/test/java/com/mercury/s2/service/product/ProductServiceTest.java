@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Before;
 import java.util.List;
 import java.util.ArrayList;
+
+import org.mockito.Mockito;
 import org.springframework.data.domain.Sort;
 
 import com.mercury.s2.repository.ProductRepository;
@@ -59,6 +61,14 @@ public class ProductServiceTest {
   public void getAllProductsCallsFindAllOnProductRepoAndGetAnEmptyArray() throws Exception {
     when(productRepositoryMock.findAll()).thenReturn(null);
     assertEquals("Empty array returned", productService.getAllProducts().isEmpty(), true);
+  }
+
+  @Test
+  public void deleteProductDeletesTheRequiredProductAndReturnsAMessage() throws Exception {
+    Mockito.doNothing().when(productRepositoryMock).delete(Long.valueOf(111));
+    assertEquals("Confirmation returned", productService.delete(Long.valueOf(111)), "Product (id: 111) successfully deleted");
+//    when(productRepositoryMock.delete(Long.valueOf(111)));
+
   }
 
   @Test
