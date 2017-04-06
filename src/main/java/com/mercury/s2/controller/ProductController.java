@@ -1,5 +1,6 @@
 package com.mercury.s2.controller;
 
+import org.json.simple.JSONObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,13 @@ public class ProductController {
     Product product = productService.getProductById(productId)
           .orElseThrow(() -> new NoSuchElementException(String.format("Product(id: %s) not found", productId)));
     return productService.update(product, input);
+  }
+
+  @RequestMapping(method = RequestMethod.DELETE, value = "/product/{productId}")
+  public JSONObject deleteProduct(@PathVariable Long productId) {
+    Product product = productService.getProductById(productId)
+            .orElseThrow(() -> new NoSuchElementException(String.format("Product(id: %s) not found", productId)));
+    return productService.delete(productId);
   }
 
 }

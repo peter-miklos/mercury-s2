@@ -370,10 +370,12 @@ public class ProductControllerTest {
     @Test
     public void deleteProduct() throws Exception {
       this.mvc.perform(delete("/api/v1/product/{id}", product1Id))
-              .andExpect(status().isOk());
+              .andExpect(status().isOk())
+              .andExpect(content().contentType(contentType))
+              .andExpect(jsonPath("$.message", is("Product (id: " + product1Id + ") has been successfully deleted")));
 
       try {
-          this.mvc.perform(get("/api/v1/product/{id}", product1Id));
+          this.mvc.perform(delete("/api/v1/product/{id}", product1Id));
           fail("Excception has not been thrown");
       } catch (NestedServletException e) {
           assertEquals(e.getCause().getMessage(), "Product(id: " + product1Id + ") not found");

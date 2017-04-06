@@ -66,7 +66,7 @@ public class ProductServiceTest {
   @Test
   public void deleteProductDeletesTheRequiredProductAndReturnsAMessage() throws Exception {
     Mockito.doNothing().when(productRepositoryMock).delete(Long.valueOf(111));
-    assertEquals("Confirmation returned", productService.delete(Long.valueOf(111)), "Product (id: 111) successfully deleted");
+    assertEquals("Confirmation returned", productService.delete(Long.valueOf(111)), "Product (id: 111) has been successfully deleted");
 //    when(productRepositoryMock.delete(Long.valueOf(111)));
 
   }

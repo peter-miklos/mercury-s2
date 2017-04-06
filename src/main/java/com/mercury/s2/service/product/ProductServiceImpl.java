@@ -1,8 +1,10 @@
 package com.mercury.s2.service.product;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mercury.s2.domain.Product;
 import com.mercury.s2.repository.ProductRepository;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
@@ -43,9 +45,12 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public String delete(Long id) {
+  public JSONObject delete(Long id) {
     productRepository.delete(id);
-    return "Product (id: " + id + ") successfully deleted";
+    JSONObject json = new JSONObject();
+    String message = "Product (id: " + id + ") has been successfully deleted";
+    json.put("message", message);
+    return json;
   }
 
   private Product addProudctFeatures(Product product, Product input) {
