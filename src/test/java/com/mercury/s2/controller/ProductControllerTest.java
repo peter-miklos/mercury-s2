@@ -367,6 +367,19 @@ public class ProductControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void deleteProduct() throws Exception {
+      this.mvc.perform(delete("/api/v1/product/{id}", product1Id))
+              .andExpect(status().isOk());
+
+      try {
+          this.mvc.perform(get("/api/v1/product/{id}", product1Id));
+          fail("Excception has not been thrown");
+      } catch (NestedServletException e) {
+          assertEquals(e.getCause().getMessage(), "Product(id: " + product1Id + ") not found");
+      }
+    }
+
     protected byte[] json(Object o) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
