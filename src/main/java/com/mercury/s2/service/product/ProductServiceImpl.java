@@ -40,17 +40,13 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Collection<Product> getAllProducts() {
-    List<Product> productList = productRepository.findAll(new Sort("productName"));
     return productRepository.findAll(new Sort("productName"));
   }
 
   @Override
   public JSONObject delete(Long id) {
     productRepository.delete(id);
-    JSONObject json = new JSONObject();
-    String message = "Product (id: " + id + ") has been successfully deleted";
-    json.put("message", message);
-    return json;
+    return getMessageInJson(id);
   }
 
   private Product addProudctFeatures(Product product, Product input) {
@@ -61,5 +57,12 @@ public class ProductServiceImpl implements ProductService {
     product.setProductOrigin(input.getProductOrigin());
 
     return product;
+  }
+
+  private JSONObject getMessageInJson(Long id) {
+    JSONObject json = new JSONObject();
+    String message = "Product (id: " + id + ") has been successfully deleted";
+    json.put("message", message);
+    return json;
   }
 }
