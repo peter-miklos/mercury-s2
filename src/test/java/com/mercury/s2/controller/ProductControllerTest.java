@@ -233,13 +233,11 @@ public class ProductControllerTest {
 
     @Test
     public void updateProduct() throws Exception {
-        System.out.println(product1Id);
         product1.setProductCategory("Category 9");
         product1.setProductGroup("Product group 9");
         product1.setProductName("Product 9");
         product1.setProductPrice(33.97);
         product1.setProductOrigin("Hungary");
-        System.out.println(product1Id);
 
         this.mvc.perform(put("/api/v1/product/{id}", product1Id)
                 .contentType(contentType)
@@ -365,6 +363,21 @@ public class ProductControllerTest {
                 .contentType(contentType)
                 .content(json(product1)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteProduct() throws Exception {
+      this.mvc.perform(delete("/api/v1/product/{id}", product1Id))
+              .andExpect(status().isOk())
+              .andExpect(content().contentType(contentType))
+              .andExpect(jsonPath("$.message", is("Product (id: " + product1Id + ") has been successfully deleted")));
+
+      try {
+          this.mvc.perform(delete("/api/v1/product/{id}", product1Id));
+          fail("Excception has not been thrown");
+      } catch (NestedServletException e) {
+          assertEquals(e.getCause().getMessage(), "Product(id: " + product1Id + ") not found");
+      }
     }
 
     protected byte[] json(Object o) throws IOException {
