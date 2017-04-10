@@ -19,8 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
@@ -61,9 +60,11 @@ public class UserControllerTest {
         this.mvc.perform(post("/api/v1/users/new")
                 .contentType(contentType)
                 .content(json(user1)))
-                .andExpect(status().isOk());
-//                .andExpect(content().contentType(contentType))
-//                .andExpect(jsonPath("$.productCategory", is(product2.getProductCategory())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.username", is(user1.getUsername().replaceFirst("@.*", "@***"))))
+                .andExpect(jsonPath("$.id", notNullValue()))
+                .andExpect(jsonPath("$.passwordHash", notNullValue()));
     }
 
     protected byte[] json(Object o) throws IOException {
