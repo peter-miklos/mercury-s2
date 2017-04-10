@@ -37,8 +37,8 @@ public class UserDomainTest {
 
   @Test
   public void toJsonReturnsJsonRepresentationOfUserDetails() throws Exception {
-    String expectedValue = "{id=null, username='test@***', passwordHash='Long passw'}";
-    assertEquals("Json representation returned", user.toJson(), expectedValue);
+    String expectedValue = "{\"id\":null,\"passwordHash\":\"Long passw\",\"username\":\"test@***\"}";
+    assertEquals("Json representation returned", user.toJson().toString(), expectedValue);
   }
 
 }

@@ -1,9 +1,10 @@
 package com.mercury.s2.domain;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
@@ -52,5 +53,13 @@ public class User {
             ", username='" + username.replaceFirst("@.*", "@***") +
             "', passwordHash='" + password.substring(0, 10) +
             "'}";
+  }
+
+  public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    json.put("id", id);
+    json.put("username", username.replaceFirst("@.*", "@***"));
+    json.put("passwordHash", password.substring(0, 10));
+    return json;
   }
 }
