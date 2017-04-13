@@ -31,13 +31,13 @@ public class UserDomainTest {
 
   @Test
   public void toStringReturnsStringRepresentationOfUserDetails() throws Exception {
-    String expectedValue = "User{id=null, username='test@***', passwordHash='Long passw'}";
+    String expectedValue = "User{\"id\"=null, \"username\"=\"test@***\"}";
     assertEquals("String representation returned", user.toString(), expectedValue);
   }
 
   @Test
   public void toJsonReturnsJsonRepresentationOfUserDetails() throws Exception {
-    String expectedValue = "{\"id\":null,\"passwordHash\":\"Long passw\",\"username\":\"test@***\"}";
+    String expectedValue = "{\"id\":null,\"username\":\"test@***\"}";
     assertEquals("Json representation returned", user.toJson().toString(), expectedValue);
   }
 

@@ -49,17 +49,15 @@ public class User {
   @Override
   public String toString() {
     return "User{" +
-            "id=" + id +
-            ", username='" + username.replaceFirst("@.*", "@***") +
-            "', passwordHash='" + password.substring(0, 10) +
-            "'}";
+            "\"id\"=" + id +
+            ", \"username\"=\"" + username.replaceFirst("@.*", "@***") +
+            "\"}";
   }
 
   public JSONObject toJson() {
     JSONObject json = new JSONObject();
     json.put("id", id);
     json.put("username", username.replaceFirst("@.*", "@***"));
-    json.put("passwordHash", password.substring(0, 10));
     return json;
   }
 }

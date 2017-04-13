@@ -63,8 +63,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.username", is(user1.getUsername().replaceFirst("@.*", "@***"))))
-                .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.passwordHash", notNullValue()));
+                .andExpect(jsonPath("$.id", notNullValue()));
     }
 
     protected byte[] json(Object o) throws IOException {
