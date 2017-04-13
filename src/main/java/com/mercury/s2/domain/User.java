@@ -1,9 +1,10 @@
 package com.mercury.s2.domain;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
@@ -48,9 +49,15 @@ public class User {
   @Override
   public String toString() {
     return "User{" +
-            "id=" + id +
-            ", username='" + username.replaceFirst("@.*", "@***") +
-            "', passwordHash='" + password.substring(0, 10) +
-            "'}";
+            "\"id\"=" + id +
+            ", \"username\"=\"" + username.replaceFirst("@.*", "@***") +
+            "\"}";
+  }
+
+  public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    json.put("id", id);
+    json.put("username", username.replaceFirst("@.*", "@***"));
+    return json;
   }
 }

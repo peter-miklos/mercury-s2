@@ -1,6 +1,5 @@
 package com.mercury.s2.service.product;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mercury.s2.domain.Product;
 import com.mercury.s2.repository.ProductRepository;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 import java.util.Optional;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
